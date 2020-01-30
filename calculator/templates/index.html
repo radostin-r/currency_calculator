@@ -21,17 +21,12 @@
         {% endfor %}
     </table>
 
-    <form>
+    <form action="{% url 'calculate' %}" method="post">
         {% csrf_token %}
-        <label>From currency</label>
-        <input type="text" id="from" value="">
-        <label>To currency</label>
-        <input type="text" id="to" value="">
-        <label>Amount</label>
-        <input type="text" id="amount" value="">
-        <input type="button" value="Calculate" onclick="javascript:calculateAmount()">
+        {{ form.as_p }}
+        <input type="submit" value="Calculate">
     </form>
     <label>Result amount</label>
-    <input type="text" name="result_amount" value="">
+    <input type="text" name="result_amount" value="{{ result_amount }}">
 </body>
 </html>
