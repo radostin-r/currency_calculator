@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 
@@ -9,18 +10,15 @@ from calculator.forms import CalculatorForm
 def show_index(request):
     erc = ExchangeRateController()
     pairs = erc.get_all_pairs()
-
-    if request.method == 'POST':
-        form = CalculatorForm(request.POST)
-
-        if form.is_valid():
-            from_currency = form.cleaned_data['from_currency']
-            to_currency = form.cleaned_data['to_currency']
-            amount = form.cleaned_data['amount']
-            result_amount = erc.calculate_amount(from_currency, to_currency, amount)
-            return render(request, 'index.html', {'form': form, 'data': pairs, 'result_amount': result_amount})
-    else:
-        form = CalculatorForm()
+    form = CalculatorForm()
 
     return render(request, 'index.html', {'form': form, 'data': pairs})
 
+
+def calculate_amount(request):
+    erc = ExchangeRateController()
+    from_currency = request.GET.get('from_currency', '')
+    to_currency = request.GET.get('to_currency', '')
+    amount = float(request.GET.get('amount', ''))
+    result_amount = erc.calculate_amount(from_currency, to_currency, amount)
+    return JsonResponse({'result_amount': result_amount})

@@ -7,6 +7,30 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
+{% block javascript %}
+<script>
+
+
+    function calculateAmount() {
+        var fromCurrency = document.getElementById("id_from_currency").value;
+        var toCurrency = document.getElementById("id_to_currency").value;
+        var amount = document.getElementById("id_amount").value;
+        $.ajax({
+            url: '{% url "calculate" %}',
+            data: {'from_currency': fromCurrency, 'to_currency': toCurrency, 'amount': amount},
+            dataType: 'json',
+            success: function(result) {
+                var amount = document.getElementById("result_amount");
+                amount.value = result.result_amount;
+            },
+            error: function() {
+                alert("Something went wrong");
+            }
+        })
+    }
+</script>
+{% endblock %}
+
 <body>
     <table>
         <tr>
@@ -21,12 +45,12 @@
         {% endfor %}
     </table>
 
-    <form action="{% url 'calculate' %}" method="post">
+    <form>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Calculate">
+        <input type="button" value="Calculate" onclick="javascript:calculateAmount()">
     </form>
     <label>Result amount</label>
-    <input type="text" name="result_amount" value="{{ result_amount }}">
+    <input type="text" id="result_amount" name="result_amount">
 </body>
 </html>
