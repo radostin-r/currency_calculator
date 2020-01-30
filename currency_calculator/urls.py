@@ -21,5 +21,5 @@ from calculator import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.show_index),
-    path('calculate/', views.calculate_amount, name='calculate'),
+    path('calculate/', views.show_index, name='calculate'),
 ]
