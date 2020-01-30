@@ -8,25 +8,28 @@
 </head>
 
 <body>
-    <table>
-        <tr>
-            <td>Currency pair</td>
-            <td>Exchange rate</td>
-        </tr>
-        {% for pair in data %}
+    <div style="float: left">
+        <table>
             <tr>
-                <td> {{ pair.currency_pair }} </td>
-                <td> {{ pair.exchange_rate }} </td>
+                <td>Currency pair</td>
+                <td>Exchange rate</td>
             </tr>
-        {% endfor %}
-    </table>
-
-    <form action="{% url 'calculate' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Calculate">
-    </form>
-    <label>Result amount</label>
-    <input type="text" name="result_amount" value="{{ result_amount }}">
+            {% for pair in data %}
+                <tr>
+                    <td> {{ pair.currency_pair }} </td>
+                    <td> {{ pair.exchange_rate }} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        <form action="{% url 'calculate' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Calculate">
+        </form>
+        <label>Result amount</label>
+        <input type="text" name="result_amount" value="{{ result_amount }}">
+    </div>
 </body>
 </html>
